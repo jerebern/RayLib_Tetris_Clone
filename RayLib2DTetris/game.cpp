@@ -12,7 +12,8 @@ int main(void)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    float LastTime = GetTime();
+    float LastTimeUpdateGravity = GetTime();
+    float LastTimeUpdatePlayerMovement = GetTime();
     const int screenWidth = 1024;
     const int screenHeight = 768;
 
@@ -40,13 +41,18 @@ int main(void)
        // printf("%f \n", GetTime());
         BeginDrawing();
         ClearBackground(RAYWHITE);
-
-        if (GetTime() > LastTime) {
+        //Apply Gravity on the piece every 1 Sec
+        if (GetTime() > LastTimeUpdateGravity) {
           piece->Gravity();
-          LastTime = GetTime() +1;
+          LastTimeUpdateGravity = GetTime() +1;
+                    
+        }
+        //Prevents the player from moving too fast
+        if (GetTime() > LastTimeUpdatePlayerMovement) {
+            player.Move_Piece(piece);  
+             piece->Print_Pos();
 
-        player.Move_Piece(piece);  
-        piece->Print_Pos();
+             LastTimeUpdatePlayerMovement = GetTime() + 0.2;
         }
       
         drawGame.DrawUI();
