@@ -15,5 +15,6 @@ public:
 	DrawGame();
 	void DrawUI();
 	void DrawCurrentParts(Piece*);
+	void DrawGameField(Rectangle);
 };
 

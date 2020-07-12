@@ -21,3 +21,10 @@ void DrawGame::DrawCurrentParts(Piece * piece)
 	DrawRectangleRec(piece->GetPart(i), piece->GetColor());
 }
 
+void DrawGame::DrawGameField(Rectangle Rect)
+{
+	DrawRectangleRec(Rect, BROWN);
+	
+
+}
+

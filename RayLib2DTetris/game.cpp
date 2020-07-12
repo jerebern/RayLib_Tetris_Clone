@@ -8,6 +8,8 @@
 #include "Player.h"
 
 
+
+
 int main(void)
 {
     // Initialization
@@ -16,8 +18,10 @@ int main(void)
     float LastTimeUpdatePlayerMovement = GetTime();
     const int screenWidth = 1024;
     const int screenHeight = 768;
-
-    int x = 0, y = 0;
+    int x, y;
+    bool Place_Block = false;
+    int Upper_Line = 0;
+    int Gravity_Index;
     srand(time(0));
     InitWindow(screenWidth, screenHeight, "2D Tetris with Raylib");
 
@@ -29,7 +33,7 @@ int main(void)
 
     DrawGame drawGame;
     Player player;
-    
+    Rectangle Play_Area[13][28] = { NULL };
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -43,7 +47,28 @@ int main(void)
         ClearBackground(RAYWHITE);
         //Apply Gravity on the piece every 1 Sec
         if (GetTime() > LastTimeUpdateGravity) {
-          piece->Gravity();
+          
+            for (int i = 0; i < 4; i++) {
+                x = piece->GetPart(i).x / 32;
+                y = piece->GetPart(i).y / 32;
+                
+                printf("X: %i ,  Y : %i \n", x, y);
+
+                if (CheckCollisionRecs(Play_Area[x + 1][y + 1],piece->GetPart(i)) || piece->GetPart(i).y >= 200) {
+
+                    printf("collision\n");
+                    Place_Block = true;
+
+                }
+                if (Place_Block) {
+                    
+                    Play_Area[x/2][y/2] = piece->GetPart(i);
+                    Place_Block = false;
+                  }
+            }
+
+
+            piece->Gravity();
           LastTimeUpdateGravity = GetTime() +1;
                     
         }
@@ -54,12 +79,29 @@ int main(void)
 
              LastTimeUpdatePlayerMovement = GetTime() + 0.2;
         }
-      
+        //Planifier pour verifier si ligne pleine
+
+/*        for (int i = 0; i < 0; i++) {
+
+            for (int j = 0; j < 0; j++) {
+                if(Play_Area[i][j] != NULL)
+
+            }
+
+        }*/
+        for (int i = 0; i < 13; i++) {
+            for (int j = 0; j < 28; j++) {
+                
+                if(Play_Area != NULL)
+                    drawGame.DrawGameField(Play_Area[i][j]);
+
+            }
+
+        }
+ 
         drawGame.DrawUI();
         drawGame.DrawCurrentParts(piece);
-                  
-       
-
+  
          EndDrawing();
    
     }
