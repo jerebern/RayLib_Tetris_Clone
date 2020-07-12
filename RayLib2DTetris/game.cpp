@@ -38,7 +38,7 @@ int main(void)
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
-    Piece* piece = new Piece(5);
+    Piece* piece = new Piece(GetRandomValue(0,6));
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
@@ -54,7 +54,7 @@ int main(void)
                 
                 printf("X: %i ,  Y : %i \n", x, y);
 
-                if (CheckCollisionRecs(Play_Area[x + 1][y + 1],piece->GetPart(i)) || piece->GetPart(i).y >= 200) {
+                if (CheckCollisionRecs(Play_Area[x + 1][y + 1],piece->GetPart(i)) || piece->GetPart(i).y >= 730) {
 
                     printf("collision\n");
                     Place_Block = true;
@@ -63,6 +63,7 @@ int main(void)
                 if (Place_Block) {
                     
                     Play_Area[x/2][y/2] = piece->GetPart(i);
+                    piece = new Piece(GetRandomValue(0, 6));
                     Place_Block = false;
                   }
             }
