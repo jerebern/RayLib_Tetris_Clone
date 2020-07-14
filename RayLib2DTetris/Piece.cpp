@@ -228,11 +228,20 @@ void Piece::MoveLeftAndRight(int Direction)
 
 }
 
-void Piece::Gravity()
+int  Piece::Gravity(int Y)
 {
 	for (int i = 0; i < 4; i++) {
+
 		part[i].y = part[i].y + 32;
+
 	}
 
+	if (part->y > 748) {
+
+		return 1;
+	}
+	else {
+		return 0;
+	}
 
 }

@@ -13,7 +13,7 @@ public:
         Color GetColor();
         void Print_Pos();
         void MoveLeftAndRight(int);
-        void Gravity();
+        int Gravity(int);
         void Rotate();
 
 };

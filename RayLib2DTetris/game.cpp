@@ -21,7 +21,8 @@ int main(void)
     int x, y;
     bool Place_Block = false;
     int Upper_Line = 0;
-    int Gravity_Index;
+    int Gravity_Index = 0;
+    int X_Index = 6;
     srand(time(0));
     InitWindow(screenWidth, screenHeight, "2D Tetris with Raylib");
 
@@ -45,16 +46,16 @@ int main(void)
        // printf("%f \n", GetTime());
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        //Apply Gravity on the piece every 1 Sec
+        //Apply Gravity on the current piece every 1 Sec
         if (GetTime() > LastTimeUpdateGravity) {
-          
+          /*
             for (int i = 0; i < 4; i++) {
                 x = piece->GetPart(i).x / 32;
                 y = piece->GetPart(i).y / 32;
                 
                 printf("X: %i ,  Y : %i \n", x, y);
 
-                if (CheckCollisionRecs(Play_Area[x + 1][y + 1],piece->GetPart(i)) || piece->GetPart(i).y >= 730) {
+                if (CheckCollisionRecs(Play_Area[x+1][y+1],piece->GetPart(i)) || piece->GetPart(i).y >= 250) {
 
                     printf("collision\n");
                     Place_Block = true;
@@ -63,13 +64,34 @@ int main(void)
                 if (Place_Block) {
                     
                     Play_Area[x/2][y/2] = piece->GetPart(i);
-                    piece = new Piece(GetRandomValue(0, 6));
+
                     Place_Block = false;
                   }
             }
+*/
 
+            if (!piece->Gravity(screenHeight))
+                Gravity_Index++;
+            else {
+            
+                piece = new Piece(GetRandomValue(0, 6));
 
-            piece->Gravity();
+            }
+            for (int i = 0; i < 4; i++) {
+                if (CheckCollisionRecs(Play_Area[X_Index + 1][Gravity_Index + 1], piece->GetPart(i)) || piece->GetPart(i).y >= 748) {
+
+                    printf("collision\n");
+                    Place_Block = true;
+
+                }
+                if (Place_Block) {
+
+                    Play_Area[X_Index][Gravity_Index + 1] = piece->GetPart(i);
+
+                    Place_Block = false;
+                }
+            }
+
           LastTimeUpdateGravity = GetTime() +1;
                     
         }
@@ -107,7 +129,7 @@ int main(void)
    
     }
 
-
+    
     CloseWindow();     
 
     return 0;
